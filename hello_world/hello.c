@@ -13,15 +13,19 @@ int getPeachNumber(n)
     } 
     else
     {
-        num = getPeachNumber(n+1)*2+1;   //这里是不应该用递归呢？
-        printf("第%d天所剩桃子%d个\n", n, num); //天数，所剩桃子个数
+        num = getPeachNumber(n+1)*2+1;
+        printf("%d day%d ---\n", n, num); 
     }
     return num;
 }
 
 int main()
-{   int num = getPeachNumber(1);
-    printf("猴子第一天摘了:%d个桃子。\n", num);
+{   
+    // int num = getPeachNumber(1);
+    // printf(":%d。\n", num);
+    static int a = 5;
+    a++;
+    printf("%d is a\n", a);
     const int WIDTH = 5;
     printf(" size : %lu ", sizeof(int) );
     system("pause");
