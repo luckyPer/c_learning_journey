@@ -19,12 +19,12 @@ void main()
     a.next = &b;
     b.next = &c;
     c.next = NULL;
-    //p = head;
+    p = head;
     do
     {
         printf("num = %ld , score = %f \n", head->num, head->score);
-        head = head->next;
-    } while(head!=NULL);
+        p = p->next;
+    } while(p!=NULL);
 
     system("pause");
 }

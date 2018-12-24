@@ -11,6 +11,26 @@ struct student
     struct student * next;
 };
 
+struct student * initStuScore()
+{
+    struct student *a, *b, *c, *head;
+    head = NULL;
+    a = (struct student * ) malloc(1);
+    a->num = 1;
+    a->score = 99;
+    head = a;
+    b = (struct student * ) malloc(2);
+    b->num = 2;
+    b->score = 88;
+    a->next = b;
+    c = (struct student * ) malloc(3);
+    c->num = 8;
+    c->score = 77;
+    b->next = c;
+    c->next = NULL;
+    return head;
+}
+
 int n;
 
 struct student * creat()
@@ -76,26 +96,33 @@ void deleteStudent(struct student *head, int num)
 
 void appendStudent(struct student *head, int num, int score)
 {
-    struct student *p1, *p2, *next;
-    p1->num = 4;
-    p1->score = 66;
-    p2 = head;
+    struct student *pNew, *p, *prev;
+    pNew = (struct student *)malloc(1);
+    pNew->num = num;
+    pNew->score = score;
+    pNew->next = NULL;
+    p = head;
     if(head == NULL)
     {
-        head = p1;
+        head = pNew;
     }
     else 
     {
-        do
+        while((pNew->num > p->num) && (p->next !=NULL))
         {
-            next = p2->next;
-            if(p2->num > num)
-            {
-                p2 ->next = p1;
-                p1->next = next;
-            }
-            p2 = p2->next;
-        } while(p1 != NULL);
+            prev = p;
+            p = p->next;
+        }
+        if(pNew->num <= p->num)
+        {
+            prev->next = pNew;
+            pNew ->next = p;
+        }
+        else 
+        {
+            p->next = pNew;
+            pNew->next =NULL;
+        }
     }
 }
 
@@ -123,15 +150,31 @@ void qSortStudent(struct student *head)
     }
 }
 
+void deleteStu(struct student *head, int num)
+{
+    struct student *p1, *p2;
+    p1= head;
+    do{
+        p2 = p1;
+        p1 = p1->next;
+        if(p1->num == num)
+        {
+            p2->next= p1->next;
+            break;
+        }
+    } while( p1->next != NULL );
+}
+
 void main ()
 {
-    struct student *head = creat();
-    qSortStudent(head);
-    printStudent(head);
-    printf("delect a point\n");
-    int num = 0;
+    struct student *head =  initStuScore();
+    //struct student *head = creat();
+    // qSortStudent(head);
+    // printStudent(head);
+    // printf("delect a point\n");
+    // int num = 0;
     //scanf("%d", &num);
-    //deleteStudent(head , num);
-appendStudent(head, 4, 66);
+    deleteStu(head , 1);
+    appendStudent(head, 11, 66);
     system("pause");
 }
