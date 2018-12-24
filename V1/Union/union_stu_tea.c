@@ -37,11 +37,11 @@ void main()
     {
         if(person[i].job == 's')
         {
-            printf("%d, %s, %c, %d", person[i].num, person[i].name, person[i].job, person[i].category.class);
+            printf("%d, %s, %c, %d\n", person[i].num, person[i].name, person[i].job, person[i].category.class);
         } 
         else if(person[i].job == 't')
         {            
-            printf("%d, %s, %c, %s", person[i].num, person[i].name, person[i].job,  person[i].category.position);
+            printf("%d, %s, %c, %s\n", person[i].num, person[i].name, person[i].job,  person[i].category.position);
         }
     }
 
