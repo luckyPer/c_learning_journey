@@ -1,6 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+typedef int COUNT;
+COUNT i,j;
+
 struct Person
 {
     int num;
