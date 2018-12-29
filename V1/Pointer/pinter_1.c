@@ -20,7 +20,6 @@ main(int argc, char const *argv[])
     point2 = &b;
     swapNumber(point1, point2);
     printf("%d", (a>b) ? *point1: *point2);
-
     system("pause");
 }
 
