@@ -1,6 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+//同一内存地址上存不同类型的数据类型， 但只能有一个成员带值
+//表现结果为  
+//     data2a.age = 1;
+//     data2a.f = 2.0;
+//     printf("%d \n",data2a.age);   莫名其妙的数字
+//     printf("%d \n",data2a.f);  2.000000
+//age内存坑被f占用了
 union data1
 {
     int age;
@@ -23,7 +29,6 @@ void main()
     data2a.age = 1;
     data2a.f = 2.0;
     printf("%d \n",data2a.age);
-    printf("%d \n",data2b.age);
-    printf("%f \n",data2a.f);
+    printf("%d \n",data2a.f);
     system("pause");
 }

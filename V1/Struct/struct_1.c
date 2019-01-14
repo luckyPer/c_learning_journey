@@ -11,16 +11,16 @@ struct birthday
 
 struct birthday bir = {03, 15, {96,1996}};
 
-struct student
+struct student  //结构体标签
 {
-    int num;
+    int num;  //变量定义
     char name[20];
     struct birthday b;
     char sex;
     int age;
     float score;
     char addr[30];
-}student1;
+}student1;  //结构变量
 
 struct
 {
