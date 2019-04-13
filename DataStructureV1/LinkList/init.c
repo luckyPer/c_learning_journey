@@ -13,7 +13,7 @@ struct linkList1
 
 void AddHeadLinkList(struct linkList1 *l1) {
     int x = 0;
-    l2 = (struct linkList1*)malloc(LEN);
+    l1 = (struct linkList1*)malloc(LEN);
     struct linkList1 *s;
     l1->next = NULL;
     scanf("%d", &x);
