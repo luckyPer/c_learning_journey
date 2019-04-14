@@ -52,6 +52,20 @@ void SearchLinkListNode(struct linkList1 *l2){
     }
 }
 
+struct linkList1 *SearchLinkListNodeByIndex(struct linkList1 *l2, int index)
+{  
+    int j = 0 + 1;
+    struct linkList1 *s;
+    if(index <= 0) return;
+    s = l2->next;
+    while(s != NULL && j < index)
+    {
+        j++;
+        s = s->next;
+    }
+    return s;
+}
+
 void InsertLinkListNodeByIndex(struct linkList1 *l2, int index)
 {
     index = 5;
@@ -69,4 +83,39 @@ void InsertLinkListNodeByIndex(struct linkList1 *l2, int index)
         j++;
         s = s->next;
     }
+}
+
+void deleteLinkListNodeByIndex(struct linkList1 *l2, int index)
+{
+    int j = 0 + 1;
+    struct linkList1 *deleteNode = SearchLinkListNodeByIndex(l2, index);
+    struct linkList1 *r = (struct linkList1*)malloc(LEN);
+    r = deleteNode->next;
+    deleteNode->next = r->next;
+    free(r);
+}
+
+struct linkList1 *initlinkList1()
+{
+    int x= 0;
+    struct linkList1 *head = (struct linkList1*)malloc(LEN);
+    struct linkList1 *s, *r=head;
+    while(true){
+        printf("input x");
+        scanf("%d", &x);
+        if(x == 0) break;
+        s = (struct linkList1*)malloc(LEN);
+        s->data = x;
+        r->next = s;
+        r = s;
+    }   
+    r->next = NULL;
+    return head;
+}
+int main(int argc, char const *argv[])
+{
+    struct linkList1 *mainLinkList = initlinkList1();
+    struct linkList1 *SearchLinkListNode = SearchLinkListNodeByIndex(mainLinkList, 2);
+    deleteLinkListNodeByIndex(mainLinkList, 2);
+    return 0;
 }
