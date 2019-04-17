@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "stdlib.h": "c"
+        "*.vue": "vue",
+        "stdlib.h": "c",
+        "stdbool.h": "c"
     }
 }
