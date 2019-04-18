@@ -18,5 +18,26 @@ typedef struct SqQueue
 //队列中元素个数: (rear - front + maxsize) % maxsize 
 typedef struct CricleQueue
 {
-    
-};
+    ElementType Data[initSize];
+    int front, rear; 
+}CricleQueue;
+
+bool push(CricleQueue *CQ, ElementType X)
+{
+    int maxsize = sizeof(initSize);
+    if((CQ->rear + 1) % maxsize == CQ->front) return false;
+    CQ->Data[CQ->rear] = X;
+    CQ->rear = (CQ->rear + 1) % maxsize;
+    return true;
+}
+
+bool pop(CricleQueue *CQ, ElementType X)
+{
+    int maxsize = sizeof(CQ);
+    CricleQueue *p = CQ;
+    if(CQ->rear == CQ->front) return false;
+    X = CQ->Data[CQ->front];
+    CQ->front = (CQ->front + 1) % maxsize;
+    return true;
+}
+
