@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+//初建堆
 void BuildMaxHeap(int arr[], int len)
 {
     int i;
@@ -10,6 +11,7 @@ void BuildMaxHeap(int arr[], int len)
     }
 }
 
+//调成大顶锥型
 void AjdustDown(int arr[], int k, int len)
 {
     arr[0] = arr[k];
