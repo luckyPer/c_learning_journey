@@ -102,5 +102,5 @@ void getMaxAndPutFront(DoubleLinkList *head)
     s->rightLink = head->rightLink;
     s->leftLink = head;
     head->rightLink = s;
-    s->rightLink->leftLink = q;
+    s->rightLink->leftLink = s;
 }
