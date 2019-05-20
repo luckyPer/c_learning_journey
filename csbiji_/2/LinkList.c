@@ -79,3 +79,28 @@ void scanWordCreateList()
 
 
 //求双链表中最大的结点,并移至到最前边
+void getMaxAndPutFront(DoubleLinkList *head)
+{
+    DoubleLinkList *p = head->rightLink, *s = p;
+    int max = p->data;
+    while (p->rightLink)
+    {
+        if(max < p->data)
+        {
+            max = p->data;
+            s = p;
+        }
+        p = p->leftLink;
+    }
+    DoubleLinkList *l = s->leftLink;
+    DoubleLinkList *r = s->rightLink;
+    l->rightLink = r;
+    if(r)
+    {
+        r->leftLink = l;
+    }
+    s->rightLink = head->rightLink;
+    s->leftLink = head;
+    head->rightLink = s;
+    s->rightLink->leftLink = q;
+}
