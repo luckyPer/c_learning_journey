@@ -37,3 +37,29 @@ void getMax(SeqList *s)
     }
     
 }
+
+//归并, 两个数组,都是升序排列好的
+void meger(int arr1[], int n1, int arr2[], int n2)
+{
+    int i,j,k;
+    int result[n1+n2];
+    for (i = 0, j = 0, k = 0; i < n1 && j < n2; k++)
+    {
+        if (arr1[i] <= arr2[j])
+        {
+            result[k] = arr1[i++];
+        }
+        else
+        {
+            result[k] = arr1[j++];
+        }       
+    }
+    while (i<n1)
+    {
+        result[k] = arr1[i++];
+    }
+    while (j<n2)
+    {
+        result[k] = arr1[j++];
+    }
+}
