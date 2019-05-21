@@ -104,3 +104,81 @@ void getMaxAndPutFront(DoubleLinkList *head)
     head->rightLink = s;
     s->rightLink->leftLink = s;
 }
+
+//归并 尾插法
+//归并, 两个数组,都是升序排列好的
+void mergeR(LinkList *head1, LinkList *head2, LinkList **head)
+{
+    LinkList *p = head1->next;
+    LinkList *q = head2->next;
+    LinkList *r = head;
+    
+    while (p && q)
+    {
+        if (p->data < q->data)
+        {
+            r->next = p;
+            r = r->next;
+            p = p->next;
+        }
+        else
+        {
+            r->next = q;
+            r = r->next;
+            q = q->next;
+        
+        }              
+    }
+    if (p)
+    {
+        r->next = p;
+    }
+    if (q)
+    {
+        r->next = q;
+    }
+    r->next = NULL;
+}
+
+//归并 头插法
+//归并, 两个数组,都是升序排列好的
+void mergeH (LinkList *head1, LinkList *head2, LinkList *head)
+{
+    LinkList *p = head1->next;
+    LinkList *q = head2->next;
+    LinkList *s;
+    head = head1;
+    head->next = NULL;
+    
+    while (p && q)
+    {
+        if (p->data < q->data)
+        {
+            s = p;
+            s->next = head->next;
+            head->next = s;
+            p = p->next;
+        }
+        else
+        {
+            s= q;
+            s->next = head->next;
+            head->next = s;
+            q = q->next;
+        }              
+    }
+    while (p)
+    {   
+        s = p;
+        s->next = head->next;
+        head->next = s;
+        p = p->next;
+    }
+    while (q)
+    {   
+        s= q;
+        s->next = head->next;
+        head->next = s;
+        q = q->next;
+    }  
+}
