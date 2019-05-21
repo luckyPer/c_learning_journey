@@ -63,3 +63,29 @@ void meger(int arr1[], int n1, int arr2[], int n2)
         result[k] = arr1[j++];
     }
 }
+
+//划分, 就是选一个元素当枢轴
+
+// 1 用第一个元素充当枢轴, 要求 划分成左右两部分, 左边部分要小于枢轴, 右边部分要大于枢轴, 并且枢轴位于中间
+void divideByFirst(int arr[], int n)
+{
+    int pivot = arr[0];
+    int low = 0;
+    int high = n - 1;
+    while (low < high)
+    {   
+        while (low < high && arr[high] <= pivot) high--;
+        if (low < high)
+        {
+            arr[low] = arr[high];
+            low ++;
+        }
+        while (low < high && arr[low] >= pivot) low++;    
+        if (low < high)
+        {
+            arr[high] = arr[low];
+            high --;
+        }     
+    }  
+    arr[low] = pivot; 
+}
