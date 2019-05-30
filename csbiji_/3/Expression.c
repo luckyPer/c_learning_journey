@@ -101,7 +101,7 @@ void calculateFront(char expression[], int len)
 int main(int argc, char const *argv[])
 {
     char form[] = {'1', '5', '-', '3', '*'};
-    calculateFront(form);
+    calculateFront(form, 5);
     return 0;
 }
 
