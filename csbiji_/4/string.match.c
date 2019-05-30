@@ -45,3 +45,36 @@ int naive(Str str, Str subStr)
         return 0;
     }   
 }
+
+/*
+ *@description: KMP,i不用回溯
+ *@params1: 原串
+ *@params2: 比配串
+ *@params3: 比配串计算得到的next数组
+ *@return: 匹配成功de index
+ *@date: 2019-05-30 20:57:57
+*/
+int KMP(Str str, Str subStr, int next[])
+{
+    int i,j = 0;
+    while (i <= str.len && j <= subStr.len)
+    {
+        if (j == 0 || str.ch[i] == str.ch[j])
+        {
+            i++;
+            j++;
+        }
+        else
+        {
+            j = next[j];
+        }        
+    }
+    if (j > subStr.len)
+    {
+        return i-subStr.len;
+    }
+    else 
+    {
+        return 0;
+    }    
+}
