@@ -78,3 +78,25 @@ int KMP(Str str, Str subStr, int next[])
         return 0;
     }    
 }
+
+int getNext(Str str, int next[])
+{
+    int j = 1;
+    int k = 0;
+    next[1] = 0;
+    while (j < str.len)
+    {
+        if(k == 0 || str.ch[j] == str.ch[k])
+        {
+            next[j+1] = k+1;
+            j++;
+            k++;
+        }
+        else
+        {
+            k = next[k];
+        }
+        
+    }
+    
+}
