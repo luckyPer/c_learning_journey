@@ -80,9 +80,10 @@ int KMP(Str str, Str subStr, int next[])
 }
 
 /*
- *@description: 运用已知的 next[k] 求出 next[k+1]
+ *@description: 匹配串下标依旧从1开始, 运用已知的 next[k] 求出 next[k+1]
     1. str[k] == str[j] 时, next[k+1] = next[k] +1;
     2. str[k] == str[j] 时, 循环, 让next[k] = k, 使得k=0 或者使得满足1. 为止的时候. k= next[j+1] = 1
+    3. next[1] = 0
  *@params1: 匹配串
  *@params2: next数组
  *@return: 地址引用next数组
