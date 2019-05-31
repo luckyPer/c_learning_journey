@@ -79,6 +79,15 @@ int KMP(Str str, Str subStr, int next[])
     }    
 }
 
+/*
+ *@description: 运用已知的 next[k] 求出 next[k+1]
+    1. str[k] == str[j] 时, next[k+1] = next[k] +1;
+    2. str[k] == str[j] 时, 循环, 让next[k] = k, 使得k=0 或者使得满足1. 为止的时候. k= next[j+1] = 1
+ *@params1: 匹配串
+ *@params2: next数组
+ *@return: 地址引用next数组
+ *@date: 2019-05-31 20:51:22
+*/
 int getNext(Str str, int next[])
 {
     int j = 1;
@@ -95,8 +104,6 @@ int getNext(Str str, int next[])
         else
         {
             k = next[k];
-        }
-        
-    }
-    
+        }     
+    }  
 }
