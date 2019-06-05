@@ -83,7 +83,35 @@ void PostOrderNoneR(BTNode *bt)
         {
             p = stack2[top2--];
             visit(p);
+        }       
+    }    
+}
+
+/*
+ *@description: 中序遍历二叉树 非递归.  从根节点开始 ,沿着左子树路径一直全部入栈. 
+ 若栈不为空,  则出栈并访问出栈元素, 在指向右孩子. loop
+ *@params1: BtNode : 二叉树
+ *@return: Void
+ *@date: 2019-06-05 19:34:46
+*/
+void inorderNoneR(BTNode *BT)
+{
+    BTNode *stack[maxsize];
+    int top = -1;
+    BTNode *p = NULL;
+    p = BT;
+    while (top != -1 || p)
+    {
+        while (p)
+        {
+            stack[++top] = p;
+            p = p->lchild;
         }
-        
+        if (top != -1)
+        {
+            p = stack[top--];
+            visit(p);
+            p = p->rchild;
+        }      
     }    
 }
