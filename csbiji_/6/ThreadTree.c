@@ -21,18 +21,18 @@ void InThread(ThreadNode *p, ThreadNode *pre)
 {
     if (p)
     {
-        InThread(p, pre);
-        if (p->lchild)
+        InThread(p->lchild, pre);
+        if (p->lchild == NULL)
         {
             p->lchild = pre;
             p->ltag = 1;
         }
-        if (pre && pre->rchild)
+        if (pre && pre->rchild == NULL)
         {
             pre->rchild = p;
             pre->rtag = 1;
         }
         pre = p;
-        InThread(p, pre);
+        InThread(p->rchild, pre);
     }   
 }
