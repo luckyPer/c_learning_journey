@@ -4,6 +4,7 @@
 #include <string.h>
 
 #define maxsize 99
+#define INF 9999999
 
 /*
  *@description: 邻接矩阵
@@ -15,12 +16,13 @@ typedef struct
     char info;
 }VexTexType;    //顶点类型
 
+ //图的邻接矩阵类型
 typedef struct 
 {
     int edges[maxsize][maxsize];
     int n, e;
     VexTexType vex[maxsize];
-}MGrapgh;   //图的邻接矩阵类型
+}MGrapgh;  
 
 
 /*
@@ -109,4 +111,50 @@ void BFS(AGrapgh *G, int v, int visit[])
             p = p->nextArc;
         }    
     }  
+}
+
+
+/*
+ *@description:普利姆最小代价生成树算法. key: lowcost数组(与v0相关的边的权值) 和 vest数组, 
+ 用v0来初始化这两个数组, 把v0加入树中. 外层loop,  内层再又两个loop, 第一个loop找lowcost数组里比min小的值, 
+ 找到顶点 index后, 各种赋值. 最后一个loop 在跟新lowcost 
+ *@params1: 无向图, 邻接矩阵类型
+ *@params2: 当前顶点
+ *@params3: sum总和
+ *@date: 2019-06-14 19:51:18
+*/
+void prim(MGrapgh G, int v0, int *sum)
+{
+    int lowcost[maxsize], vset[maxsize];
+    int i,j,k,v,min;
+    v = v0;
+    for (i = 0; i < G.n; i++)
+    {
+        vset[i] = 0;
+        lowcost[i] = G.edges[v0][i];
+    }
+    vset[v] = 1;
+    sum = 0;
+    for (i = 0; i < G.n-1; i++)
+    {
+        for (j = 0; j< G.n; j++)
+        {
+            min = INF;
+            if (vset[j] == 0 && lowcost[j] < min)
+            {
+                min = lowcost[j];
+                k = j;
+            }            
+        }
+        v = k;
+        vset[v] = 1;
+        sum += min;
+        for (j = 0; j < G.n; j++)
+        {
+            if (vset[j] == 0 && G.edges[v][j] < lowcost[j])
+            {
+                lowcost[j] = G.edges[v][j];
+            }        
+        }      
+    }   
 }
