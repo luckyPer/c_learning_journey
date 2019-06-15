@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
+#include <algorithm>
 
 #define maxsize 99
 #define INF 9999999
@@ -157,4 +158,58 @@ void prim(MGrapgh G, int v0, int *sum)
             }        
         }      
     }   
+}
+
+//图: 反应两节点间和权值的关系
+typedef struct 
+{
+    int w; //权重
+    int a, b; //a b 的两个顶点
+}Road;
+
+Road road[maxsize]; 
+int parent[maxsize];//并查集数组
+
+/*
+ *@description:并查集中查找根节点
+ *@params1: 当前节点index
+ *@return: 当前节点index对应的根节点
+ *@date: 2019-06-15 20:13:12
+*/
+int getRoot(int a)
+{
+    while (a != parent[a])
+    {
+        a = parent[a];
+    }
+    return a;
+} 
+
+/*
+ *@description: 初始化parent, 和road(按照权值由小到大排序), loop(边的个数), 取得对应的a b边, 再并查集, 如果 a ,b不相等,则能够加入
+ *@params1: 无向图, 邻接矩阵类型
+ *@params2: sum总和
+ *@params3: road数组 数据结构
+ *@date: 2019-06-15 20:20:17
+*/
+void Kruskal(MGrapgh g, int *sum, Road road[])
+{
+    int i = 0;
+    int a,b;
+    sum = 0;
+    for ( i = 0; i < g.n; i++)
+    {
+        parent[i] = i;
+    }
+    sort(road, g.e);
+    for ( i = 0; i < g.e; i++)
+    {
+        a = getRoot(road[i].a);
+        b = getRoot(road[i].b);
+        if (a != b)
+        {
+            parent[a] = b;
+            sum += road[i].w;
+        }     
+    }  
 }
