@@ -213,3 +213,62 @@ void Kruskal(MGrapgh g, int *sum, Road road[])
         }     
     }  
 }
+
+
+//迪杰斯特拉算法: 图中某一顶点到其余各边的最短路径
+/*
+ *@description: 初始化三个数组:
+ dist: v0 到vi 的最短权值, 没有则为无穷
+ path: 最短路径上 vi 的前一个顶点, 没有则为 -1
+ set: 0;
+ 把 v0 放入, loop 
+ loop 找到vet[i] 为 0, v0 与 vi 的最小权值, 把此vi 设置为v, 放入路径中
+ 再loop vet[j] 为 0,比较 dist[i] + g,edges[i][j] (当前loop 中的顶点) < dist[j], 则跟新dist  ,path
+ *@params1: 邻接矩阵
+ *@params2: v0: 某一个顶点
+ *@params3: dist: v0 到vi 的最短权值
+ *@params3: path: 最短路径上 vi 的前一个顶点
+ *@date: 2019-06-16 20:02:03
+*/
+void Dijkestra(MGrapgh g, int v0, int dist[], int path[])
+{
+    int set[maxsize];
+    int i = 0, j=0;
+    int min;
+    int v;
+    for ( i = 0; i < g.n; i++)
+    {
+        dist[i] = g.edges[v0][i];
+        set[i] = 0;
+        if (g.edges[v0][i] < INF)
+        {
+            path[i] = v0;
+        }
+        else
+        {
+            path[i] = -1;
+        }        
+    }
+    set[v0] = 1;
+    for ( i = 0; i < g.n-1; i++)
+    {
+        min = INF;
+        for ( j = 0; j < g.n; j++)
+        {
+            if(dist[j] < min && set[j] == 0)
+            {
+                v = j;
+                min = dist[j];
+            }
+        }
+        set[v] = 1;
+        for ( j = 0; j < g.n; j++)
+        {
+            if(set[j] == 0 && dist[v] + g.edges[v][j] < dist[j])
+            {
+                dist[j] = dist[v] + g.edges[v][j];
+                path[j] = v;
+            }
+        }       
+    }   
+}
