@@ -39,6 +39,7 @@ typedef struct
 typedef struct
 {
     char data;
+    int count; //统计顶点当前的入度
     struct ArcNode *fristNode;
 }VNode;
 
@@ -250,6 +251,7 @@ void Dijkestra(MGrapgh g, int v0, int dist[], int path[])
         }        
     }
     set[v0] = 1;
+    path[v0] = -1;
     for ( i = 0; i < g.n-1; i++)
     {
         min = INF;
@@ -271,4 +273,90 @@ void Dijkestra(MGrapgh g, int v0, int dist[], int path[])
             }
         }       
     }   
+}
+
+/*弗洛伊德算法求解 某一顶点(任意) 到其余各边的最短路径
+ *@description: 设置两个矩阵 A, path, A 用来存放任意两个顶点最短路径的长度, path 存放 两顶点间最短路径上要经过的顶点(中间顶点). 两个loop 初始化 A, path. 三层loop A[i][j] > A[i][k] + A[k][j]
+ *@params1: 邻接矩阵
+ *@params2: 最短路径进过的顶点, 初始值为-1
+ *@date: 2019-06-17 20:49:44
+*/
+void Floyad(MGrapgh g, int path[][maxsize])
+{
+    int i,j,k;
+    int A[maxsize][maxsize];
+    for ( i = 0; i < g.n; i++)
+    {
+        for ( j = 0; j < g.n; j++)
+        {
+            A[i][j] = g.edges[i][j];
+            path[i][j] = -1;
+        }
+        
+    }
+    
+    for ( k = 0; k < g.n; k++)
+    {
+         for ( i = 0; i < g.n; i++)
+        {
+            for ( j = 0; j < g.n; j++)
+            {
+                if (A[i][j] > A[i][k] + A[k][j])
+                {
+                    A[i][j] = A[i][k] + A[k][j];
+                    path[i][j] = k;
+                }              
+            }
+        }
+    }  
+}
+
+/*AOV NETWORK */
+// typedef struct 
+// {
+//     char data;
+//     int count; //统计顶点当前的入度
+//     ArcNode *firstarc;
+// }VNode;
+
+/*拓扑排序
+ *@description: 需要一个栈, 一个for loop, 把入度为0 的顶点入栈. 若栈不为空, 则出栈, 顶点号赋予 i, 计数加一, 
+ 把顶点i 的第一条边赋予p, while loop, 顶点指向的边的入度减一, 
+ *@params1: 邻接表
+ *@return: 计数 n = 领接表的顶点数 return 1
+ *@date: 2019-06-17 21:11:02
+*/
+int TopSort(AGrapgh *g)
+{
+    int i,j,n = 0;
+    ArcNode *p = NULL;
+    int stack[maxsize]; int top = -1;
+    for ( i = 0; i < g->n; i++)
+    {
+        if (g->ArcList[i].count == 0)
+        {
+            stack[++top] = i;
+        }
+    }
+    while (top != -1)
+    {
+        i = stack[top--];
+        ++n;
+        p = g->ArcList[i].fristNode;
+        while (p)
+        {
+            j = p->adjvex;
+            (g->ArcList[j].count)--;
+            if (g->ArcList[j].count == 0)
+            {
+                stack[++top] = j;
+            }
+            p = p->nextArc;
+        }
+    }
+    if (n == g->n)
+    {
+        return 1;
+    }
+    return 0;
 }
