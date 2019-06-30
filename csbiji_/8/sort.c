@@ -83,3 +83,40 @@ void shellSort(int arr[], int n)
         }      
     }   
 }
+
+//快速排序: 递归算法
+void quickSort(int arr[], int low, int high)
+{
+    int i = low;
+    int j = high;
+    int temp;
+    if (low < high)
+    {
+        temp = arr[low];
+        while(i < j)
+        {
+            while (i < j && arr[j] >= temp)
+            {
+                j--;
+            }
+            if (i < j)
+            {
+                arr[i] = arr[j];
+                i++;
+            }
+            while (i < j && arr[i] < temp)
+            {
+                i++;
+            }
+            if (i < j)
+            {
+                arr[j] = arr[i];
+                j--;
+            }
+        }
+        arr[i] = temp;
+        quickSort(arr, low, i-1);
+        quickSort(arr, i+1, high);
+    }
+    
+}
