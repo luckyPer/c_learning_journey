@@ -117,6 +117,48 @@ void quickSort(int arr[], int low, int high)
         arr[i] = temp;
         quickSort(arr, low, i-1);
         quickSort(arr, i+1, high);
+    } 
+}
+
+
+///堆排序: 
+//堆: 完全二叉树, 非叶子结点值不大于(不小于) 其左右孩子的值
+//数组下标从0 开始
+void Sift(int arr[], int low, int high)
+{
+    int i = low, temp;
+    int j = i*2+1; 
+    temp = arr[i];
+    while (j <= high)
+    {
+        if (j < high && arr[j] > arr[j+1])
+        {
+            j++;
+        }
+        if (temp < arr[j])
+        {
+            arr[i] = arr[j];
+            i = j;
+            j = i*2 + 1;
+        }
     }
-    
+    arr[i] = temp;
+}
+
+void heapSort(int arr[], int n)
+{
+    int i, temp;
+    //建立初始堆
+    for ( i = n/2-1; i >=0; i--)
+    {
+        Sift(arr, i, n-1);
+    }
+    //把第一次建成的堆, 第一个元素放到数组的最后一位, 在进行 n-1 次 Silt ; 
+    for ( i = n-1; i >0; i--)
+    {
+        temp = arr[0];
+        arr[0] = arr[i];
+        arr[i] = temp; 
+        Sift(arr, 0, i-1);
+    }
 }
