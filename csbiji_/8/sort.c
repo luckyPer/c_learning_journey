@@ -84,7 +84,18 @@ void shellSort(int arr[], int n)
     }   
 }
 
-//快速排序: 递归算法
+//快速排序: 递归算法(通常选第一作为枢轴)
+/*
+ *@description: i = low, j = high, 若i< j, 选取i位置的元素作为枢轴, while loop.
+ while loop, 从 j 向前找第一个不大于枢轴的元素(i<j) 时, 把 j的元素赋值给i 的
+ while loop, 从 i 向后找第一个 大于枢轴的元素(i<j) 时, 把 i的元素赋值给j 的
+ 此时mid 为 i , 枢轴值赋值给i
+ 递归quickSort
+ *@params1: 
+ *@params2: 
+ *@return: 
+ *@date: 2019-07-02 22:33:12
+*/
 void quickSort(int arr[], int low, int high)
 {
     int i = low;
@@ -124,6 +135,13 @@ void quickSort(int arr[], int low, int high)
 ///堆排序: 
 //堆: 完全二叉树, 非叶子结点值不大于(不小于) 其左右孩子的值
 //数组下标从0 开始
+/*
+ *@description: i: low(父节点), j: 根据i 的第一个非叶子节点
+ 暂存low 位置的元素, 如果第一个非叶子节点的小于等于 high, while loop
+ 改变j 的位置(j < high , arr[j] 小于后一个元素) j++
+ low 位置元素 < j位置的元素, 调整堆: i
+ *@date: 2019-07-02 22:18:02
+*/
 void Sift(int arr[], int low, int high)
 {
     int i = low;
