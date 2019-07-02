@@ -126,12 +126,12 @@ void quickSort(int arr[], int low, int high)
 //数组下标从0 开始
 void Sift(int arr[], int low, int high)
 {
-    int i = low, temp;
+    int i = low;
     int j = i*2+1; 
-    temp = arr[i];
+    int temp = arr[i];
     while (j <= high)
     {
-        if (j < high && arr[j] > arr[j+1])
+        if (j < high && arr[j] < arr[j+1])
         {
             j++;
         }
@@ -161,4 +161,66 @@ void heapSort(int arr[], int n)
         arr[i] = temp; 
         Sift(arr, 0, i-1);
     }
+}
+
+
+
+//二路归并排序
+void MergeSort(int arr[], int low, int high)
+{
+    int mid;
+    if(low < high)
+    {
+        mid = (low + high)/2;
+        MergeSort(arr, low, mid);
+        MergeSort(arr, mid+1, high);
+        merge(arr, low, mid, high);
+    }
+}
+
+/*
+ *@description: 从low 到 mid,  mid+1 到 high 两段有序的序列归并成一段有序序列
+ 开两个数组, 对应的arr 的index 复制进去
+    left[mid - low + 1];
+    right[high -mid];
+ 最后把整个arr 变得有序
+ *@date: 2019-07-02 22:02:02
+*/
+void merge(int arr[], int low, int mid, int high)
+{
+    int i,j,k;
+    int n1 = mid - low + 1;
+    int n2 = high -mid;
+    int left[n1];
+    int right[n2];
+    for ( i = 0; i < n1; i++)
+    {
+        left[i] = arr[low+i];
+    }
+    for ( j = 0; i < n2; j++)
+    {
+        right[j] = arr[mid+1+j];
+    }
+    i =0; j = 0;
+    k = low;
+    while (i < n1 && j < n2)
+    {
+        if (right[j] < left[i])
+        {
+            arr[k] = right[j++];
+        }
+        else
+        {
+            arr[k] = left[i++];
+        }
+        k++;
+    }
+    while (i < n1)
+    {
+        arr[k++] = left[i++];
+    }
+    while (j < n2)
+    {
+        arr[k++] = right[j++];
+    }   
 }
