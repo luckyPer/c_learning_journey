@@ -223,13 +223,13 @@ void merge(int arr[], int low, int mid, int high)
     k = low;
     while (i < n1 && j < n2)
     {
-        if (right[j] < left[i])
+        if (left[j] <= right[i])
         {
-            arr[k] = right[j++];
+            arr[k] = left[i++];
         }
         else
         {
-            arr[k] = left[i++];
+            arr[k] = right[j++];
         }
         k++;
     }
