@@ -171,20 +171,19 @@ void merge(int *arr1, int count1,int *arr2, int count2, int *C)
 //8
 void reverseFromAtoB(int *arr, int A, int B)
 {
-    A = A-1;
     int temp;
     int i;
-    for ( i = A; i < B; i++)
+    for ( i = 0; i < (B-A+1)/2; i++)
     {
-        temp = arr[i];
-        arr[i] = arr[B-i-1];
-        arr[B-i-1] = temp;
+        temp = arr[A+i];
+        arr[A+i] = arr[B-i];
+        arr[B-i] = temp;
     }  
 }
 
 void exchange(int *arr, int m, int n)
 {
-    reverseFromAtoB(arr,1,m-1);
+    reverseFromAtoB(arr,0,m-1);
     reverseFromAtoB(arr,m,n-1);
     reverse(arr,m+n);
 }
@@ -221,4 +220,67 @@ void BSearchAndInsert(int *arr, int n, int X)
         }
         arr[mid] = X;
     }
+}
+
+
+//10
+//先逆前p个元素, 和p 到n-1 的元素
+//再整体逆值
+void converse(int *arr, int n , int p)
+{
+    reverseFromAtoB(arr, 0, p-1);
+    reverseFromAtoB(arr, p, n-1);
+    reverseFromAtoB(arr, 0, n-1);
+}
+
+
+//11
+int getMID(int A[],int B[], int n)
+{
+    int res;
+    int C[2*n];
+    int i=0,j=0;
+    int k=0 ;
+    while (i< n && j < n)
+    {
+        if (A[i] <= B[j])
+        {
+           C[k++] =  A[i++]; 
+        }
+        else
+        {
+            C[k++] = B[j++];
+        }
+    }
+    while (i< n)
+    {
+        C[k++] =  A[i++]; 
+    }
+    while (j< n)
+    {
+        C[k++] =  B[j++];
+    }
+    res = C[n+1];
+}
+
+//13
+int getMininteger(int A[], int n)
+{
+    int *B = (int*)malloc(sizeof(int)*n);
+    for (int i = 0; i < n; i++)
+    {
+        if (A[i] > 0)
+        {
+            B[A[i]-1] = 1;
+        }
+    }
+    int i ;
+    for ( i = 0; i < n; i++)
+    {
+        if (B[i] == 0)
+        {
+            break;
+        }
+    }
+    return i+1;
 }
