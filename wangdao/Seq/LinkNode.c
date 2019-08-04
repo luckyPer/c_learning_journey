@@ -10,6 +10,44 @@ typedef struct LinkNode
     struct LinkNode *next; 
 }LinkNode;
 
+typedef struct DBLinkNode
+{
+    int data;
+    struct DBLinkNode *left; 
+    struct DBLinkNode *right; 
+}DBLinkNode;
+
+typedef struct SLinkNode
+{
+    int data;
+    struct SLinkNode *next; 
+}SLinkNode;
+
+int main(int argc, char const *argv[])
+{
+    struct LinkNode *head = (LinkNode*)malloc(sizeof(LinkNode));;
+    struct LinkNode *a = (LinkNode*)malloc(sizeof(LinkNode));;
+    a->data = 1;
+    struct LinkNode *b = (LinkNode*)malloc(sizeof(LinkNode));;
+    b->data = 2525;
+    a->next = b;
+    head ->next = a;
+    // while (head)
+    // {
+    //     head = head->next;
+    //     printf("%d\n",head->data);
+    // }
+    LinkNode *p = head;
+    p ->next = NULL;
+        while (head)
+    {
+        head = head->next;
+        printf("%d\n",head->data);
+    }
+    return 0;
+}
+
+
 //1 Recursion
 void DeleteX(LinkNode *L, int X)
 {
@@ -261,3 +299,204 @@ void getCommonEle(LinkNode *A, LinkNode *B, LinkNode*C)
         }       
     }    
 }
+
+//15
+//两个链表升序, 
+//时间复杂度 O(A+B)  
+//空间: O(1)
+void Union(LinkNode *A, LinkNode *B)
+{
+    LinkNode *pa = A->next;
+    LinkNode *pb = B->next;
+    LinkNode *pre = A;
+    LinkNode *r;
+    while (pa && pb)
+    {
+        if(pa->data == pb->data)
+        {
+            pre->next = pa;
+            pre = pa;
+            pa = pa->next;
+            r = pb;
+            pb = pb->next;
+            free(r);
+        }
+        else if(pa->data < pb->data)
+        {
+            r = pa;
+            pa = pa->next;
+            free(r);
+        }
+        else
+        {
+            r = pb;
+            pb = pb->next;
+            free(r);
+        }        
+    }
+    while (pa)
+    {
+        r = pa;
+        pa = pa->next;
+        free(r);
+    }
+    while (pb)
+    {
+        r = pb;
+        pb = pb->next;
+        free(r);
+    }
+    pre->next = NULL;   
+}
+
+
+//16
+void judge(DBLinkNode *head)
+{
+    DBLinkNode *tail = head->left;
+    DBLinkNode *p = head->right;
+   
+    while (tail != p && tail != p->right)
+    {
+        if (tail->data == p->data)
+        {
+            tail = tail->left;
+            p = p->right;
+        }
+        else
+        {
+            break;
+        }     
+    }   
+}
+
+//18
+void connectTS(SLinkNode *h1, SLinkNode *h2)
+{
+    if(h1->next == h1 || h2->next == h2) return;
+
+    SLinkNode *p1 = h1;
+    SLinkNode *p2 = h2;
+    while (p2->next != h1)
+    {
+        p2 = p2->next;
+    }
+    p1 ->next = p2->next;
+    while (p2->next != h2)
+    {
+        p2 = p2->next;
+    }
+    p2->next = h1;
+}
+
+void deleteMin(SLinkNode *head)
+{
+    SLinkNode *p = head;
+    SLinkNode *minPre;
+    SLinkNode *min;
+    while (p->next != head)
+    {
+        minPre = p;
+        min = p->next;
+        while (p->next != head)
+        {
+            if (p->next->data < min->data)
+            {
+                min = p->next;
+                minPre = p;
+            }
+            p = p->next;
+        }
+        minPre->next = minPre->next->next;
+        free(min);
+    }
+    free(head);
+}
+
+//21
+void getKPosition(LinkNode *list, int k)
+{
+    int len = 0;
+    int resP = 0;
+    LinkNode *p = list->next;
+    while (p)
+    {
+        len ++;
+        p = p->next;
+    }
+    resP = len - k +1;
+    if(resP > 0)
+    {
+        int i = 1;
+        p = list->next;
+        while (p)
+        {
+            if(i == resP) 
+            {
+                printf(p);
+            }
+            i++;
+        }    
+    }
+    else
+    {
+        printf("error");
+    }
+}
+
+//21 one time loop
+void getKPosition(LinkNode *list, int k)
+{
+    LinkNode *p = list->next;
+    LinkNode *q = list->next;
+    int count =0;
+    while (p)
+    {
+        if (count < k)
+        {
+            count++;
+        }
+        else
+        {
+            q = q->next;
+        }
+        p = p->next;
+    }
+    if(count < k) return;
+    else
+    {
+        printf(q);
+    }   
+}
+
+
+//22
+void getSameTail(LinkNode* str1, LinkNode* str2)
+{
+    LinkNode *p1 = str1->next;
+    LinkNode *p2 = str2->next;
+    LinkNode *r;
+    while (p1)
+    {
+        while (p2)
+        {
+            if(p1->data == p2->data)
+            {
+                r = p1;
+                p1 = p1->next;
+                p2 = p2->next;
+            }
+            else
+            {
+                p2 = p2->next;
+                r = NULL;
+            }
+        }
+        p1 = p1->next;
+        p2 = str2->next;
+    } 
+}
+
+
+//23
+
