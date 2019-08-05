@@ -25,6 +25,7 @@ typedef struct SLinkNode
 
 int main(int argc, char const *argv[])
 {
+
     struct LinkNode *head = (LinkNode*)malloc(sizeof(LinkNode));;
     struct LinkNode *a = (LinkNode*)malloc(sizeof(LinkNode));;
     a->data = 1;
@@ -37,12 +38,12 @@ int main(int argc, char const *argv[])
     //     head = head->next;
     //     printf("%d\n",head->data);
     // }
-    LinkNode *p = head;
-    p ->next = NULL;
-        while (head)
+    LinkNode *p = head->next;
+    head ->next = NULL;
+        while (p)
     {
-        head = head->next;
-        printf("%d\n",head->data);
+        p = p->next;
+        printf("%d\n",p->data);
     }
     return 0;
 }
@@ -243,7 +244,56 @@ void split(LinkNode *A)
     }
 }
 
-//11?
+//11
+int getNodeLen(LinkNode *A)
+{
+    int len = 0;
+    LinkNode *p = A;
+    while (p)
+    {
+        len ++;
+        p = p->next;
+    }
+    return len;
+}
+LinkNode * getComNode(LinkNode *A, LinkNode *B)
+{
+    LinkNode * pa = A->next;
+    LinkNode * pb = B->next;
+    int n1 = getNodeLen(&A), n2 = getNodeLen(&B);
+    int i = 0;
+    if(n2 > n1)
+    {
+        i = n2-n1;
+        while (i > 0)
+        {
+            pb = pb->next;
+            i--;
+        }    
+    }
+    else
+    {
+        i = n1-n2;
+        while (i > 0)
+        {
+            pa = pa->next;
+            i--;
+        }  
+    }
+    while (pa)
+    {
+        if (pa == pb)
+        {
+            break;
+        }
+        else
+        {
+            pa= pa->next;
+            pb= pb->next;
+        }
+    }
+    return pa;
+}
 
 //12 链表题设有序
 void deleteSameNode(LinkNode *head)
@@ -270,7 +320,44 @@ void deleteSameNode(LinkNode *head)
 }
 
 //13
-
+void MeregDesc(LinkNode *A, LinkNode *B)
+{
+    LinkNode *p = A->next;
+    LinkNode *r = B->next;
+    A->next = NULL;
+    LinkNode *q;
+    while (p && r)
+    {
+        if (p->data > r->data)
+        {
+            q = r->next;
+            r->next = A->next;
+            A->next = r;
+            r = q;
+        }
+        else
+        {
+            q = p->next;
+            p->next = A->next;
+            A->next = p;
+            p = r;
+        }
+    }
+    while(A)
+    {
+        q = r->next;
+        r->next = A->next;
+        A->next = r;
+        r = q;
+    }
+    while (B)
+    {
+        q = r->next;
+        r->next = A->next;
+        A->next = r;
+        r = q;
+    }   
+}
 
 //14
 void getCommonEle(LinkNode *A, LinkNode *B, LinkNode*C)
@@ -350,7 +437,36 @@ void Union(LinkNode *A, LinkNode *B)
 }
 
 
+
 //16
+int pattern(LinkNode  * A, LinkNode * B)
+{
+    LinkNode *pa = A;
+    LinkNode *pre = pa;
+    LinkNode *pb = B;
+    while (pa && pb)
+    {
+        if (pa->data == pb->data)
+        {
+            pa = pa->next;
+            pb = pb->next;
+        }
+        else
+        {
+            pre =pre->next;
+            pa = pre;
+            pb = B;
+        }
+    }
+    if (pb == NULL)
+    {
+        return 1;
+    }
+    return 0;
+}
+
+
+//17
 void judge(DBLinkNode *head)
 {
     DBLinkNode *tail = head->left;
@@ -389,6 +505,8 @@ void connectTS(SLinkNode *h1, SLinkNode *h2)
     p2->next = h1;
 }
 
+
+//19
 void deleteMin(SLinkNode *head)
 {
     SLinkNode *p = head;
@@ -413,8 +531,43 @@ void deleteMin(SLinkNode *head)
     free(head);
 }
 
+
+//20
+typedef struct DB_LinkNode
+{
+    int data;
+    int freq;
+    struct DB_LinkNode *pred; 
+    struct DB_LinkNode *next; 
+}DB_LinkNode;
+
+DB_LinkNode* Locate(DB_LinkNode * L, int X)
+{
+    DB_LinkNode *p = L->next;
+    DB_LinkNode *preFreq = L;
+    DB_LinkNode *pre = L;;
+    while (p)
+    {
+        if (p->freq != p->next->freq)
+        {
+            preFreq = p;
+        }
+        if (p->data == X)
+        {
+            ++(p->freq);
+            pre->next = pre->next->next;
+            p->next  =preFreq->next->next;
+            preFreq ->next = p;
+        }
+        pre = pre->next;
+        p = p->next;
+    }  
+    return p;
+}
+
+
 //21
-void getKPosition(LinkNode *list, int k)
+void getKPosition1(LinkNode *list, int k)
 {
     int len = 0;
     int resP = 0;
@@ -445,6 +598,7 @@ void getKPosition(LinkNode *list, int k)
 }
 
 //21 one time loop
+// node q will go next when count < k, it called step
 void getKPosition(LinkNode *list, int k)
 {
     LinkNode *p = list->next;
@@ -471,6 +625,8 @@ void getKPosition(LinkNode *list, int k)
 
 
 //22
+//junk
+//O(n^2)
 void getSameTail(LinkNode* str1, LinkNode* str2)
 {
     LinkNode *p1 = str1->next;
@@ -496,7 +652,98 @@ void getSameTail(LinkNode* str1, LinkNode* str2)
         p2 = str2->next;
     } 
 }
-
+//superior
+//O(max(len(str1), max(len(str2)))
+void getSameTail2(LinkNode *str1, LinkNode *str2)
+{
+    LinkNode *p1 = str1->next;
+    LinkNode *p2 = str2->next;
+    LinkNode *r;
+    int len1= 0;
+    int len2 = 0;
+    while (p1->next || p2->next)
+    {
+        if (p1->next)
+        {
+            len1 ++;
+        }
+        if (p2->next)
+        {
+            len2 ++;
+        }
+    }
+    int i = 0;
+    if (len1 > len2)
+    {
+        i = len1 - len2;
+        while (i > 0)
+        {
+            p1 = p1->next;
+            i--;
+        }
+    }
+    else
+    {
+        i = len2 - len1;
+        while (i > 0)
+        {
+            p2= p2->next;
+            i--;
+        }
+    }
+    while (p1)
+    {
+        if (p1->data == p2->data)
+        {
+            if (!r)
+            {
+                r = p1;
+            }          
+        }
+        else
+        {
+            r = NULL;
+        }        
+        p1 = p1->next;
+        p2 = p2->next;
+    } 
+}
 
 //23
+typedef struct node
+{
+    int data;
+    struct node *link;
+}Node;
 
+//space change Time  
+void  Fuc(Node  *head, int n)
+{
+    int m;
+    Node *p = head;
+    Node *r;
+    int *arr = (int *)malloc(sizeof(int) * (n+1));
+    for (int i = 0; i < n+1; i++)
+    {
+        arr[i] = 0;
+    }
+    while (head->link)
+    {
+        // if (p->data < 0)
+        // {
+        //     m = (-1) * p->data;
+        // }
+        m = abs(p->link->data);
+        if(arr[m] == 0)
+        {
+            arr[m] = 1;
+            p = p->link;
+        }
+        else
+        {
+            r = p->link;
+            p = p->link;
+            free(p);
+        }
+    }
+}
