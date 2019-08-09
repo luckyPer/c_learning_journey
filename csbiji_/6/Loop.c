@@ -55,37 +55,82 @@ void PreOrderNoneR(BTNode *bt)
  *@return: Void
  *@date: 2019-06-04 21:49:51
 */
+// void PostOrderNoneR(BTNode *bt)
+// {
+//     if (bt)
+//     {
+//         //定义两个栈
+//         BTNode *stack1[maxsize];
+//         BTNode *stack2[maxsize];
+//         int top1 = -1;
+//         int top2 = -1;
+//         stack1[++top1] = bt;
+//         BTNode *p = NULL;
+//         while (top1 != -1)
+//         {
+//             p = stack1[top1--];
+//             stack2[top2++] = p;
+//             if (p->lchild)
+//             {
+//                 stack1[++top1] = p->lchild;
+//             }
+//             if (p->rchild)
+//             {
+//                 stack1[++top1] = p->rchild;
+//             }
+//         }
+//         while (top2 != -1)
+//         {
+//             p = stack2[top2--];
+//             visit(p);
+//         }       
+//     }    
+// }
+/*
+ *@description: 二叉树非递归 后 序遍历
+一个栈, 两个指针, p = bt, r = 指向最近访问过的节点
+先访问左子树
+当左子树为空时
+p = stack[top] p 取栈第一个元素
+若右子树存在, 且未被访问过, 转向右,右入栈, 在走到最左
+若右子树为空, 访问栈第一个结点, r=p,记录最近访问过的结点, 重置p
+ *@date: 2019-08-09 19:57:59
+*/
 void PostOrderNoneR(BTNode *bt)
 {
-    if (bt)
+    BTNode *p = bt;
+    BTNode *r;
+    BTNode *stack[maxsize];
+    int top = -1;
+    while (p || top != -1)
     {
-        //定义两个栈
-        BTNode *stack1[maxsize];
-        BTNode *stack2[maxsize];
-        int top1 = -1;
-        int top2 = -1;
-        stack1[++top1] = bt;
-        BTNode *p = NULL;
-        while (top1 != -1)
+        if (p)
         {
-            p = stack1[top1--];
-            stack2[top2++] = p;
-            if (p->lchild)
-            {
-                stack1[++top1] = p->lchild;
-            }
-            if (p->rchild)
-            {
-                stack1[++top1] = p->rchild;
-            }
+            stack[++top] = p->lchild;
+            p = p->lchild;
         }
-        while (top2 != -1)
+        else
         {
-            p = stack2[top2--];
-            visit(p);
-        }       
-    }    
+            p = stack[top];
+            if (p->rchild && p->rchild != r)
+            {
+                p = p->rchild;
+                stack[++top] = p;
+                p = p->lchild;
+            }
+            else
+            {
+                p = stack[top--];
+                visit(p);
+                r = p;
+                p = NULL;
+            }      
+        }  
+    }  
 }
+
+
+
 
 /*
  *@description: 中序遍历二叉树 非递归, 需要一个栈.  从根节点开始 ,沿着左子树路径一直全部入栈. 
