@@ -106,7 +106,7 @@ void PostOrderNoneR(BTNode *bt)
     {
         if (p)
         {
-            stack[++top] = p->lchild;
+            stack[++top] = p;
             p = p->lchild;
         }
         else

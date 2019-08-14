@@ -131,6 +131,8 @@ void PostOrderTraverse(PBiTree T) {
             if(P->rchild && P->rchild != r)
             {
                 P = P->rchild;
+                PushStack(S, P);
+                P = P->lchild;
             }
             else 
             {
