@@ -65,7 +65,7 @@ void PreThread(ThreadNode *p, ThreadNode *pre)
         }
         if (p->rtag == 0)
         {
-            eThread(p->rchild, pre);    
+            PreThread(p->rchild, pre);    
         } 
     }   
 }
