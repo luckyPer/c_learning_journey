@@ -198,3 +198,53 @@ void level(BTNode *BT)
         }
     }
 }
+
+
+//求二叉树的层数, 非递归
+int getDepthNoneR(BTNode *bt)
+{
+    int rear = -1, front = -1;
+    int last = 0, level = 0;
+    BTNode *p;
+    BTNode *que[maxsize];
+    que[++rear] = bt;
+    while (rear != front)
+    {
+        p = que[++front];
+        if (p->lchild)
+        {
+            que[++rear] = p->lchild;
+        }
+        if (p->rchild)
+        {
+            que[++rear] = p->rchild;
+        }
+        if (last == front)
+        {
+            level ++;
+            last = rear; 
+        }    
+    } 
+    return level;
+}
+
+//递归求二叉树高度
+int ldep;
+int rdep;
+int getDepth(BTNode *bt)
+{
+    if (bt == NULL)
+    {
+        return 0;
+    }
+    ldep = getDepth(bt->lchild);
+    rdep = getDepth(bt->rchild);
+    if (ldep > rdep)
+    {
+        return ldep + 1;
+    }
+    else
+    {
+        return rdep + 1;
+    }  
+}
